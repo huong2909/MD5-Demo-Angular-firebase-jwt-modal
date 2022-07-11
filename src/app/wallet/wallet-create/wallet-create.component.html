@@ -1,0 +1,42 @@
+
+<h1>Tạo danh bài viết</h1>
+<form [formGroup]="walletForm" (ngSubmit)="submit()">
+  <table>
+    <tr>
+      <td>Tên</td>
+      <td><input type="text" formControlName="name"></td>
+    </tr>
+    <tr>
+      <td>Tiền</td>
+      <td><input type="text" formControlName="moneyAmount"></td>
+    </tr>
+    <tr>
+      <td>Ảnh</td>
+      <div class="form-group col-12">
+        <input type="file"
+               id="file"
+               #userPhoto
+               (change)="onFileSelected($event)"
+               name="image"
+               autocomplete="off" formControlName="icon"
+        />
+      </div>
+    </tr>
+    <tr>
+      <td>Lớp</td>
+      <td><select formControlName = "moneyTypeId">
+        <option *ngFor="let money of listmoneyType" [value]="money.id">
+          {{money.name}}
+        </option>
+      </select></td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td>
+        <button>Tạo mới</button>
+      </td>
+    </tr>
+  </table>
+</form>
+
