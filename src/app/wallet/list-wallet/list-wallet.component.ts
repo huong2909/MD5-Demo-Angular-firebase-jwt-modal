@@ -123,7 +123,6 @@ export class ListWalletComponent implements OnInit {
     this.walletService.save(this.obj).subscribe(() => {
       this.getAll();
       this.openA();
-      // alert('Thành công');
     }, error => {
       alert('Lỗi');
     }) ;
@@ -135,7 +134,7 @@ export class ListWalletComponent implements OnInit {
       icon: 'success',
       title: 'Create success',
       showConfirmButton: false,
-      timer: 5000
+      timer: 3000
     })
   }
 }

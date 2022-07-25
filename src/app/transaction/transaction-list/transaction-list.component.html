@@ -1,0 +1,295 @@
+<div class="container">
+  <div class="menu">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Dropdown
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </li>
+          </ul>
+          <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+  </div>
+  <div class="content">
+    <br>
+    <div class="row">
+    <div class="col-12 col-sm-6 col-md-10"><h3>List Transaction</h3></div>
+    <div  class="col-12 col-sm-6 col-md-2"><h4 style="color: red">{{wallet.name + ' '}}{{wallet.moneyAmount}}</h4></div>
+    </div>
+    <div class="row">
+
+      <div class="col-sm-6">
+        <form [formGroup]="searchForm" (ngSubmit)="searchByTime()">
+        <div class="input-group rounded">
+          <input formControlName="from" type="datetime-local" id="from" class="form-control rounded" placeholder="Search by mark from..."
+                 aria-label="Search"
+                 aria-describedby="search-addon" style="margin-right: 2rem"/>
+          <input formControlName="to" type="datetime-local" id="to" class="form-control rounded" placeholder="to"
+                 aria-label="Search"
+                 aria-describedby="search-addon"/>
+          <button  class="btn btn-success" >
+                                        Search
+                                    </button>
+        </div>
+        </form>
+      </div>
+
+    </div>
+    <br>
+    <table class="table table-success table-striped">
+      <thead>
+      <tr>
+        <th scope="col">STT</th>
+        <th scope="col">Category</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Time</th>
+        <th scope="col">Note</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let transaction of transaction; index as i">
+        <th scope="row">{{ i+1 }}</th>
+        <td>{{transaction.childCategory?.name }}</td>
+        <td>{{transaction.moneyAmount}}</td>
+        <td>{{ transaction.createdDate }}</td>
+        <td>{{ transaction.note }}</td>
+        <td><button class="btn-success" (click)="open(content, transaction.id)">Edit</button></td>
+        <td><button class="btn-success" (click)="delete(transaction.id)">Delete</button></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.924416300667!2d105.76602881412018!3d21.035710085994626!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313454b9444c676b%3A0xe713200541b7456d!2sCodeGym!5e0!3m2!1sen!2s!4v1657960489958!5m2!1sen!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+  <!--    phân trang-->
+  <div class="mt-3">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination d-flex justify-content-md-end justify-content-center">
+        <li class="page-item"><a class="page-link" (click)="firstPage()">Đầu</a></li>
+        <li class="page-item"><a class="page-link" (click)="prviousPage()">Trang trước</a></li>
+        <!--                    <li class="page-item active"><a class="page-link" href="#">1</a></li>-->
+        <li class="page-item col-md-1 col-2  px-0">
+          <!--                        <input class="form-control shadow-none rounded-0" type="text" placeholder="2/5">-->
+          <div class="input-group">
+            <input type="number" min="1" [max]="totalPagination" class="form-control text-right rounded-0"
+                   placeholder="2" aria-label="Username"
+                   aria-describedby="basic-addon1" [value]="indexPagination"
+                   (change)="indexPaginationChage($event.target)">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1">{{totalPagination}}</span>
+            </div>
+          </div>
+        </li>
+<!--        <li class="page-item">-->
+<!--          <button class="btn btn-primary rounded-0" (click)="findPaginnation()">Đi</button>-->
+<!--        </li>-->
+        <li class="page-item"><a class="page-link" (click)="nextPage()">Trang kế</a></li>
+        <li class="page-item"><a class="page-link" (click)="lastPage()">Cuối</a></li>
+      </ul>
+    </nav>
+  </div>
+
+    <div class="footer">
+      <!-- Footer -->
+      <footer class="text-center text-lg-start bg-light text-muted">
+        <!-- Section: Social media -->
+        <section
+          class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom"
+        >
+          <!-- Left -->
+          <div class="me-5 d-none d-lg-block">
+            <span>Get connected with us on social networks:</span>
+          </div>
+          <!-- Left -->
+
+          <!-- Right -->
+          <div>
+            <a href="" class="me-4 text-reset">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="" class="me-4 text-reset">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="" class="me-4 text-reset">
+              <i class="fab fa-google"></i>
+            </a>
+            <a href="" class="me-4 text-reset">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="" class="me-4 text-reset">
+              <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="" class="me-4 text-reset">
+              <i class="fab fa-github"></i>
+            </a>
+          </div>
+          <!-- Right -->
+        </section>
+        <!-- Section: Social media -->
+
+        <!-- Section: Links  -->
+        <section class="">
+          <div class="container text-center text-md-start mt-5">
+            <!-- Grid row -->
+            <div class="row mt-3">
+              <!-- Grid column -->
+              <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                <!-- Content -->
+                <h6 class="text-uppercase fw-bold mb-4">
+                  <i class="fas fa-gem me-3"></i>Company name
+                </h6>
+                <p>
+                  Here you can use rows and columns to organize your footer content. Lorem ipsum
+                  dolor sit amet, consectetur adipisicing elit.
+                </p>
+              </div>
+              <!-- Grid column -->
+
+              <!-- Grid column -->
+              <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                <!-- Links -->
+                <h6 class="text-uppercase fw-bold mb-4">
+                  Products
+                </h6>
+                <p>
+                  <a href="#!" class="text-reset">Angular</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-reset">React</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-reset">Vue</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-reset">Laravel</a>
+                </p>
+              </div>
+              <!-- Grid column -->
+
+              <!-- Grid column -->
+              <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                <!-- Links -->
+                <h6 class="text-uppercase fw-bold mb-4">
+                  Useful links
+                </h6>
+                <p>
+                  <a href="#!" class="text-reset">Pricing</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-reset">Settings</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-reset">Orders</a>
+                </p>
+                <p>
+                  <a href="#!" class="text-reset">Help</a>
+                </p>
+              </div>
+              <!-- Grid column -->
+
+              <!-- Grid column -->
+              <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                <!-- Links -->
+                <h6 class="text-uppercase fw-bold mb-4">
+                  Contact
+                </h6>
+                <p><i class="fas fa-home me-3"></i> New York, NY 10012, US</p>
+                <p>
+                  <i class="fas fa-envelope me-3"></i>
+                  info@example.com
+                </p>
+                <p><i class="fas fa-phone me-3"></i> + 01 234 567 88</p>
+                <p><i class="fas fa-print me-3"></i> + 01 234 567 89</p>
+              </div>
+              <!-- Grid column -->
+            </div>
+            <!-- Grid row -->
+          </div>
+        </section>
+        <!-- Section: Links  -->
+
+        <!-- Copyright -->
+        <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+          © 2021 Copyright:
+          <a class="text-reset fw-bold" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+        </div>
+        <!-- Copyright -->
+      </footer>
+      <!-- Footer -->
+    </div>
+<!--  edit form-->
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Edit Transaction</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="transactionForm" (ngSubmit)="update()">
+        <div class="form-group">
+          <label for="firstname">Tên ví</label>
+          <div class="input-group">
+            <input [disabled]="buttonDisabled" id="firstname" class="form-control" formControlName="walletId">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="firstname">Category</label>
+          <div class="input-group">
+            <select formControlName = "childCategoryId">
+              <option *ngFor="let childCategory of childCategory" [value]="childCategory.id">
+                {{childCategory.name}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="firstname">Số tiền</label>
+          <div class="input-group">
+            <input id="moneyAmount" class="form-control" formControlName="moneyAmount">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="firstname">Ghi chú</label>
+          <div class="input-group">
+            <input id="note" class="form-control" formControlName="note">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button (click)="modal.close('Save click')">Sửa</button>
+          <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+        </div>
+      </form>
+    </div>
+
+  </ng-template>
+</div>

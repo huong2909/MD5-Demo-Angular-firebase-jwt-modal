@@ -15,6 +15,12 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     loadChildren: () => import('./wallet/wallet.module').then(module => module.WalletModule)
   },
+  {
+    path: 'transaction',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./transaction/transaction.module').then(module => module.TransactionModule)
+  },
+
 ];
 
 @NgModule({

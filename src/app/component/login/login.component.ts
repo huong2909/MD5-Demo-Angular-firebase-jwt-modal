@@ -32,7 +32,6 @@ export class LoginComponent implements OnInit {
         .pipe(first())
         .subscribe(
           data => {
-            console.log(data.status);
             if (data.status == 202) {
               // @ts-ignore
               document.getElementById("status").innerHTML = 'Login Failed! Please try again!'

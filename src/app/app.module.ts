@@ -14,6 +14,9 @@ import {AngularFireStorageModule} from "@angular/fire/compat/storage";
 import {AngularFireModule} from "@angular/fire/compat";
 import {environment} from "../environments/environment";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+// @ts-ignore
+import { TransactionComponent } from './transaction/transaction.component';
+import { TransactionListComponent } from './transaction/transaction-list/transaction-list.component';
 
 @NgModule({
   declarations: [
